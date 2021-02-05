@@ -8,6 +8,10 @@
     "start": "next start"
   },
   "dependencies": {
+    "@emotion/core": "^11.0.0",
+    "@emotion/react": "^11.1.4",
+    "@emotion/styled": "^11.0.0",
+    "axios": "^0.21.1",
     "next": "10.0.6",
     "react": "17.0.1",
     "react-dom": "17.0.1"
@@ -17,6 +21,7 @@
     "@types/react": "^17.0.1",
     "@typescript-eslint/eslint-plugin": "^4.14.2",
     "@typescript-eslint/parser": "^4.14.2",
+    "babel-plugin-emotion": "^11.0.0",
     "eslint": "^7.19.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-import": "^2.22.1",
