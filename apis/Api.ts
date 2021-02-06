@@ -1,13 +1,10 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 
-const BASE_URL = 'https://pokeapi.co/api/v2/pokemon';
-
 class Api {
   private request: AxiosInstance;
 
-  constructor(url: string, headers?: any) {
+  constructor(headers?: any) {
     this.request = axios.create({
-      baseURL: url,
       responseType: 'json',
     });
 
@@ -29,9 +26,9 @@ class Api {
     throw new Error();
   };
 
-  async get<P, R = undefined>(params?: P): Promise<R | undefined> {
+  async get<P, R = undefined>(url: string, params?: P): Promise<R | undefined> {
     try {
-      const response: AxiosResponse<R> = await this.request.get('', {
+      const response: AxiosResponse<R> = await this.request.get(url, {
         params,
       });
       return this.handleResponse<R>(response);
@@ -42,6 +39,6 @@ class Api {
   }
 }
 
-const instance = new Api(BASE_URL);
+const instance = new Api();
 
 export { instance as Api };

@@ -1,6 +1,7 @@
 import { Card, PokemonCard, PokemonListItem } from 'components/Card';
 import { IMAGE_URL, MAX_POKEMON_COUNT, TITLE_IMAGE } from 'constants/common';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import * as Styles from './styles';
 
 interface CardsProps {
@@ -8,6 +9,7 @@ interface CardsProps {
 }
 
 export const Cards = ({ pokemonList }: CardsProps) => {
+  const router = useRouter();
   const [translateX, setTranslateX] = useState(0);
   const [cards, setCards] = useState<PokemonCard[]>([]);
 
@@ -40,6 +42,10 @@ export const Cards = ({ pokemonList }: CardsProps) => {
     };
   }, []);
 
+  const handleClickFindPokemon = useCallback(() => {
+    router.push('docs');
+  }, []);
+
   return (
     <Styles.Container>
       <Styles.Image src={TITLE_IMAGE} alt="titleImage" />
@@ -51,7 +57,9 @@ export const Cards = ({ pokemonList }: CardsProps) => {
           </Styles.CardWrapper>
         ))}
       </Styles.Content>
-      <Styles.Text>{'포켓몬 찾기 >'}</Styles.Text>
+      <Styles.Text onClick={handleClickFindPokemon}>
+        {'포켓몬 찾기 >'}
+      </Styles.Text>
     </Styles.Container>
   );
 };

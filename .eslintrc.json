@@ -25,6 +25,7 @@
   ],
   "rules": {
     "arrow-parens": "off",
+    "implicit-arrow-linebreak": "off",
     "prettier/prettier": "error",
     "no-use-before-define": "off",
     "react/prop-types": "off",

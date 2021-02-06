@@ -13,8 +13,10 @@
     "@emotion/styled": "^11.0.0",
     "axios": "^0.21.1",
     "next": "10.0.6",
+    "object-key-converter": "^1.0.2",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "react-query": "^3.7.1"
   },
   "devDependencies": {
     "@types/node": "^14.14.25",
