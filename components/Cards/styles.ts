@@ -34,7 +34,7 @@ export const CardWrapper = styled.div<{ delay: number; left: number; }>`
   animation-timing-function: ease-in;
   animation-delay: ${props => props.delay}s;
   left: ${props => props.left}%;
-  top: -10vh;
+  top: -30vh;
   z-index: 10;
 
   @keyframes rainDown {
@@ -43,11 +43,11 @@ export const CardWrapper = styled.div<{ delay: number; left: number; }>`
     }
     70% {
       opacity: 0.7;
-      transform: translate(0, 97vh);
+      transform: translate(0, 120vh);
     }
     100% {
       opacity: 0;
-      transform: translate(0, 100vh);
+      transform: translate(0, 130vh);
     }
   }
 `;
