@@ -1,28 +1,38 @@
 import { getPokemon, Pokemon } from 'apis/getPokemon';
 import { Card } from 'components/Card';
 import React from 'react';
+import { QueryClient } from 'react-query';
+import { dehydrate } from 'react-query/hydration';
 
 interface ItemProps {
-  pokemon: Pokemon;
+  dehydratedState: {
+    mutation: any;
+    queries: [
+      {
+        state: {
+          data: Pokemon;
+        };
+      },
+    ];
+  };
 }
 
-const Item = ({ pokemon }: ItemProps) => {
-  return (
-    <Card pokemon={pokemon} />
-  )
-};
+const Item = ({ dehydratedState }: ItemProps) => (
+  <Card pokemon={dehydratedState.queries[0].state.data} />
+);
 
 export const getServerSideProps = async (contexts: any) => {
   try {
-    const response = await getPokemon(contexts.params.number);
-    console.log(response)
-    if (response) {
-      return {
-        props: {
-          pokemon: response,
-        },
-      };
-    }
+    const queryClient = new QueryClient();
+
+    await queryClient.prefetchQuery('posts', () =>
+      getPokemon(contexts.params.number),);
+
+    return {
+      props: {
+        dehydratedState: dehydrate(queryClient),
+      },
+    };
   } catch (error) {
     console.error('Error', error);
   }
