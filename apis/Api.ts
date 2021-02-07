@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
+import { camelize } from 'object-key-converter';
 
 class Api {
   private request: AxiosInstance;
@@ -16,7 +17,7 @@ class Api {
   private handleResponse = <R>(response: AxiosResponse<R>): R | undefined => {
     const { data } = response;
     if (data) {
-      return data;
+      return camelize(data);
     }
     return undefined;
   };

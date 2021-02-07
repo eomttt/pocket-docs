@@ -1,30 +1,33 @@
 import { Api } from 'apis/Api';
 import { BASE_URL } from 'constants/common';
+import { PokemonType } from 'constants/type';
 
 interface Info {
   name: string;
   url: string;
 }
 
-interface Sprites {
+export interface Sprites {
   frontDefault: string;
+  backDefault: string;
 }
 
-interface Type {
+export interface Type {
   slot: number;
   type: {
-    number: string;
+    name: PokemonType;
     url: string;
   };
 }
 
-interface Ability {
+export interface Ability {
   ability: {
     name: string;
   };
 }
 
 interface Response {
+  name: string;
   forms: Info[];
   sprites: Sprites;
   types: Type[];
