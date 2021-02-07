@@ -1,32 +1,20 @@
 import styled from '@emotion/styled';
 
 export const Container = styled.div`
-  position: absolute;
-  top: 40%;
   overflow: hidden;
+  position: relative;
   width: 100%;
-  transform: translateY(-50%);
+  height: 100vh;
   display: flex;
   flex-direction: column;
 `;
 
 export const Image = styled.img`
-  margin-bottom: 3em;
+  margin-top: 25vh;
+  margin-bottom: 1em;
   width: 20em;
   align-self: center;
-`;
-
-export const Content = styled.div<{ translateX: number }>`
-  display: flex;
-  transition-property: transform;
-  transition-duration: 0.8s;
-  transition-timing-function: ease;
-  transform: ${props => `translateX(${props.translateX}em)`};
-`;
-
-export const CardWrapper = styled.div`
-  margin-left: 1em;
-  margin-right: 1em;
+  z-index: 20;
 `;
 
 export const Text = styled.div`
@@ -35,4 +23,31 @@ export const Text = styled.div`
   margin-top: 3em;
   font-size: 1.5em;
   font-weight: bold;
+  z-index: 20;
+`;
+
+export const CardWrapper = styled.div<{ delay: number; left: number; }>`
+  position: absolute;
+  animation-name: rainDown;
+  animation-duration: 5.5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in;
+  animation-delay: ${props => props.delay}s;
+  left: ${props => props.left}%;
+  top: -10vh;
+  z-index: 10;
+
+  @keyframes rainDown {
+    90% {
+      opacity: 1;
+    }
+    70% {
+      opacity: 0.7;
+      transform: translate(0, 97vh);
+    }
+    100% {
+      opacity: 0;
+      transform: translate(0, 100vh);
+    }
+  }
 `;

@@ -15,12 +15,11 @@ interface CardProps {
 }
 
 export const Card = ({ pokemon }: CardProps) => {
-  const { name, image, number } = pokemon;
+  const { image } = pokemon;
 
   return (
     <Styles.Container>
       <img src={image} alt="pokemonImage" />
-      <div>{`${number}. ${name}`}</div>
     </Styles.Container>
   );
 };

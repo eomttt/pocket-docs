@@ -1,8 +1,13 @@
 import styled from '@emotion/styled';
 
+type ContainerParams = {
+  backgroundColor: string;
+  isShow: boolean;
+};
+
 export const Container = styled.div`
   position: absolute;
-  top: 40%;
+  top: 50%;
   overflow: hidden;
   width: 100%;
   transform: translateY(-50%);
@@ -11,15 +16,63 @@ export const Container = styled.div`
   align-items: center;
 `;
 
-export const CardContainer = styled.div<{ backgroundColor: string }>`
+export const InputContainer = styled.div`
+  margin-bottom: 2em;
+`;
+
+export const Input = styled.input`
+  height: 3em;
+  width: 15em;
+  margin-right: 1em;
+  border: 3px solid #fdf932;
+  border-radius: 1em;
+  padding-left: 0.5em;
+  &:focus {
+    outline: none;
+  }
+`;
+
+export const Button = styled.button`
+  width: 5em;
+  height: 3em;
+  border: 3px solid #fdf932;
+  border-radius: 1em;
+  padding: 0.5em;
+  background-color: transparent;
+  font-weight: bold;
+  &:focus {
+    outline: none;
+  }
+  &:active {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+`;
+
+export const PikachuImage = styled.div`
+  position: absolute;
+  width: 10em;
+  height: 10em;
+  z-index: 10;
+  left: 10em;
+  bottom: 0;
+  & img {
+    width: 100%;
+  }
+`;
+
+export const CardContainer = styled.div<ContainerParams>`
+  z-index: 20;
   width: 20em;
   background: linear-gradient(45deg, ${props => props.backgroundColor}, white);
   border-radius: 0.5em;
-  margin-top: 2em;
   display: flex;
   border: 5px solid #fdf932;
   display: flex;
   flex-direction: column;
+  transition-property: opacity;
+  transition-duration: 0.5s;
+  transition-timing-function: ease;
+  opacity: ${props => (props.isShow ? 1 : 0)};
   @media (max-width: 414px) {
     width: 90%;
   }

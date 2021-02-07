@@ -1,16 +1,19 @@
 import { Color } from 'constants/color';
+import { MAX_POKEMON_COUNT } from 'constants/common';
 import { useGetPokemon } from 'hooks/useGetPokemon';
 import { usePokemonAbilites } from 'hooks/usePokemonAbilities';
 import { usePokemonImage } from 'hooks/usePokemonImage';
 import { usePokemonTypes } from 'hooks/usePokemonTypes';
-import React, { ChangeEvent, useCallback, useMemo, useState } from 'react';
+import React, {
+ ChangeEvent, useCallback, useMemo, useState 
+} from 'react';
 import * as Styles from './styles';
 
 export const Dictionary = () => {
   const [value, setValue] = useState<number>();
   const [pokemonId, setPokemonId] = useState(0);
 
-  const { data, isError } = useGetPokemon(pokemonId);
+  const { data, isError, isLoading } = useGetPokemon(pokemonId);
 
   const pokemonTypes = usePokemonTypes(data?.types);
   const pokemonAbilites = usePokemonAbilites(data?.abilities);
@@ -23,6 +26,10 @@ export const Dictionary = () => {
   }, []);
 
   const handleClickFind = useCallback(() => {
+    if (Number(value) > MAX_POKEMON_COUNT) {
+      alert(`${MAX_POKEMON_COUNT} 이하로 입력해주세요.`);
+      return;
+    }
     if (value) {
       setPokemonId(value);
     }
@@ -34,19 +41,22 @@ export const Dictionary = () => {
 
   return (
     <Styles.Container>
-      <div>
-        <input
+      <Styles.InputContainer>
+        <Styles.Input
           type="number"
-          placeholder="Pokemon id"
+          placeholder="포켓몬 아이디를 입력해보세요."
           onChange={handleChangeId}
           value={value || ''}
         />
-        <button type="button" onClick={handleClickFind}>
-          Find
-        </button>
-      </div>
+        <Styles.Button type="button" onClick={handleClickFind}>
+          찾기
+        </Styles.Button>
+      </Styles.InputContainer>
       {pokemonType ? (
-        <Styles.CardContainer backgroundColor={Color[pokemonType]}>
+        <Styles.CardContainer
+          isShow={!!pokemonType}
+          backgroundColor={Color[pokemonType]}
+        >
           <Styles.ImageContainer>
             <Styles.Image src={frontImage} alt="pokemonFront" />
             <Styles.Image src={backImage} alt="pokemonBack" />
@@ -71,7 +81,7 @@ export const Dictionary = () => {
           </Styles.Abilities>
         </Styles.CardContainer>
       ) : (
-        <div>Find pokemon</div>
+        <></>
       )}
     </Styles.Container>
   );
