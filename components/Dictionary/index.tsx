@@ -1,50 +1,52 @@
-import { Color } from 'constants/color';
-import { MAX_POKEMON_COUNT } from 'constants/common';
-import { useGetPokemon } from 'hooks/useGetPokemon';
-import { usePokemonAbilites } from 'hooks/usePokemonAbilities';
-import { usePokemonImage } from 'hooks/usePokemonImage';
-import { usePokemonTypes } from 'hooks/usePokemonTypes';
-import React, {
- ChangeEvent, useCallback, useMemo, useState 
-} from 'react';
+import { PokemonListItem } from 'components/Thumbnail';
+import { IMAGE_URL, MAX_POKEMON_COUNT } from 'constants/common';
+import { useRouter } from 'next/router';
+import React, { ChangeEvent, useCallback, useState } from 'react';
+import { getPokemonNumber, getPokemonNumberbyKo } from 'utils/common';
 import * as Styles from './styles';
 
-export const Dictionary = () => {
-  const [value, setValue] = useState<number>();
-  const [pokemonId, setPokemonId] = useState(0);
+interface DicionaryProps {
+  pokemonList: PokemonListItem[];
+}
 
-  const { data, isError, isLoading } = useGetPokemon(pokemonId);
-
-  const pokemonTypes = usePokemonTypes(data?.types);
-  const pokemonAbilites = usePokemonAbilites(data?.abilities);
-  const { frontImage, backImage } = usePokemonImage(data?.sprites);
-  const pokemonName = useMemo(() => data?.name, [data?.name]);
-  const pokemonType = useMemo(() => pokemonTypes[0]?.type.name, [pokemonTypes]);
+export const Dictionary = ({ pokemonList }: DicionaryProps) => {
+  const router = useRouter();
+  const [value, setValue] = useState<number | string>();
 
   const handleChangeId = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    setValue(Number(e.target.value));
+    setValue(e.target.value);
   }, []);
 
   const handleClickFind = useCallback(() => {
-    if (Number(value) > MAX_POKEMON_COUNT) {
-      alert(`${MAX_POKEMON_COUNT} 이하로 입력해주세요.`);
+    let itemId = value;
+
+    if (isNaN(Number(value))) {
+      const koNumber = getPokemonNumberbyKo(value as string);
+      const number = getPokemonNumber(value as string, pokemonList);
+
+      if (koNumber <= 0 && number <=0) {
+        alert('정확한 이름을 입력해 주세요.');
+        return;
+      }
+
+      itemId = Math.max(koNumber, number);
+    } else if (Number(value) > MAX_POKEMON_COUNT) {
+      alert(`${MAX_POKEMON_COUNT} 이하로 입력해 주세요.`);
       return;
     }
-    if (value) {
-      setPokemonId(value);
-    }
+
+    router.push(`item/${itemId}`);
   }, [value]);
 
-  if (isError) {
-    return <div>Error: 잠시 후 다시 시도해주세요.</div>;
-  }
+  const handleClickCard = useCallback((id: number) => {
+    router.push(`item/${id}`)
+  }, []);
 
   return (
     <Styles.Container>
       <Styles.InputContainer>
         <Styles.Input
-          type="number"
-          placeholder="포켓몬 아이디를 입력해보세요."
+          placeholder="포켓몬 (아이디 또는 이름)를(을) 입력해보세요."
           onChange={handleChangeId}
           value={value || ''}
         />
@@ -52,37 +54,19 @@ export const Dictionary = () => {
           찾기
         </Styles.Button>
       </Styles.InputContainer>
-      {pokemonType ? (
-        <Styles.CardContainer
-          isShow={!!pokemonType}
-          backgroundColor={Color[pokemonType]}
-        >
-          <Styles.ImageContainer>
-            <Styles.Image src={frontImage} alt="pokemonFront" />
-            <Styles.Image src={backImage} alt="pokemonBack" />
-          </Styles.ImageContainer>
-          <Styles.Title>{pokemonName}</Styles.Title>
-          <Styles.Types>
-            {pokemonTypes.map(type => (
-              <Styles.Type
-                key={type.type.name}
-                backgroundColor={Color[type.type.name]}
-              >
-                {type.type.name}
-              </Styles.Type>
-            ))}
-          </Styles.Types>
-          <Styles.Abilities backgroundColor={Color[pokemonType]}>
-            {pokemonAbilites.map(ability => (
-              <Styles.Ability key={ability.ability.name}>
-                {ability.ability.name}
-              </Styles.Ability>
-            ))}
-          </Styles.Abilities>
-        </Styles.CardContainer>
-      ) : (
-        <></>
-      )}
+      <Styles.Items>
+        {pokemonList.map(pokemon => (
+          <Styles.Item key={pokemon.number} onClick={() => handleClickCard(pokemon.number)}>
+            <Styles.ItemContent>
+              <img
+                src={`${IMAGE_URL}${pokemon.number}.png`}
+                alt="pokemonImage"
+              />
+              <div>{`${pokemon.number}. ${pokemon.name}`}</div>
+            </Styles.ItemContent>
+          </Styles.Item>
+        ))}
+      </Styles.Items>
     </Styles.Container>
   );
 };

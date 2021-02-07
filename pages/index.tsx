@@ -1,6 +1,6 @@
 import { getPocketmonList } from 'apis/getPokemonList';
-import { PokemonListItem } from 'components/Card';
-import { Cards } from 'components/Cards';
+import { PokemonListItem } from 'components/Thumbnail';
+import { Thumbnailes } from 'components/Thumbnailes';
 import Head from 'next/head';
 import React from 'react';
 
@@ -14,11 +14,11 @@ const Home = ({ pokemonList }: HomeProps) => (
       <title>Create Next App</title>
       <link rel="icon" href="/favicon.ico" />
     </Head>
-    <Cards pokemonList={pokemonList} />
+    <Thumbnailes pokemonList={pokemonList} />
   </>
 );
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   try {
     const response = await getPocketmonList();
     if (response?.results) {

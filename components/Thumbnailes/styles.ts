@@ -26,7 +26,7 @@ export const Text = styled.div`
   z-index: 20;
 `;
 
-export const CardWrapper = styled.div<{ delay: number; left: number; }>`
+export const Thumbnail = styled.div<{ delay: number; left: number; }>`
   position: absolute;
   animation-name: rainDown;
   animation-duration: 5.5s;

@@ -1,4 +1,8 @@
-import { Card, PokemonCard, PokemonListItem } from 'components/Card';
+import {
+  Thumbnail,
+  PokemonThumbnail,
+  PokemonListItem,
+} from 'components/Thumbnail';
 import { IMAGE_URL, TITLE_IMAGE } from 'constants/common';
 import { useRouter } from 'next/router';
 import React, {
@@ -6,16 +10,16 @@ import React, {
 } from 'react';
 import * as Styles from './styles';
 
-interface CardsProps {
+interface ThumbnailesProps {
   pokemonList: PokemonListItem[];
 }
 
-export const Cards = ({ pokemonList }: CardsProps) => {
+export const Thumbnailes = ({ pokemonList }: ThumbnailesProps) => {
   const router = useRouter();
-  const [cards, setCards] = useState<PokemonCard[]>([]);
+  const [thumbnailes, setThumbnailes] = useState<PokemonThumbnail[]>([]);
 
   useEffect(() => {
-    setCards(
+    setThumbnailes(
       pokemonList.map(pokemon => ({
         ...pokemon,
         image: `${IMAGE_URL}${pokemon.number}.png`,
@@ -30,19 +34,19 @@ export const Cards = ({ pokemonList }: CardsProps) => {
   const pokemonImages = useMemo(
     () => (
       <>
-        {cards.map((card, index) => (
-          <Styles.CardWrapper
+        {thumbnailes.map((thumbnail, index) => (
+          <Styles.Thumbnail
             delay={Math.random() * 5}
             left={Math.random() * 100}
             // eslint-disable-next-line react/no-array-index-key
             key={index}
           >
-            <Card pokemon={card} />
-          </Styles.CardWrapper>
+            <Thumbnail pokemon={thumbnail} />
+          </Styles.Thumbnail>
         ))}
       </>
     ),
-    [cards],
+    [thumbnailes],
   );
 
   return (
