@@ -34,7 +34,7 @@ export const Thumbnail = styled.div<{ delay: number; left: number; }>`
   animation-timing-function: ease-in;
   animation-delay: ${props => props.delay}s;
   left: ${props => props.left}%;
-  top: -15vh;
+  top: -15%;
   z-index: 10;
 
   @keyframes rainDown {
@@ -43,11 +43,11 @@ export const Thumbnail = styled.div<{ delay: number; left: number; }>`
     }
     70% {
       opacity: 0.7;
-      transform: translate(0, 120vh);
+      transform: translate(0, 102vh);
     }
     100% {
       opacity: 0;
-      transform: translate(0, 130vh);
+      transform: translate(0, 112vh);
     }
   }
 `;
