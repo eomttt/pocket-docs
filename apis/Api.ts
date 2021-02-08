@@ -10,7 +10,9 @@ class Api {
     });
 
     if (headers) {
-      this.request.defaults.headers = { ...headers };
+      this.request.defaults.headers = {
+        ...headers,
+      };
     }
   }
 

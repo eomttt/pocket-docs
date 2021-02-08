@@ -1,7 +1,7 @@
 import { getPocketmonList } from 'apis/getPokemonList';
 import { Layout } from 'components/Layout';
 import { Thumbnailes } from 'components/Thumbnailes';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps } from 'next';
 import React from 'react';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
@@ -25,7 +25,7 @@ const Home = () => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   try {
     const queryClient = new QueryClient();
     await queryClient.prefetchQuery('pokemonlist', getPocketmonList);

@@ -25,7 +25,7 @@ export const CardContainer = styled.div<ContainerParams>`
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-  };
+  } ;
 `;
 
 export const ImageContainer = styled.div`
@@ -50,7 +50,9 @@ export const Types = styled.div`
   display: flex;
 `;
 
-export const Type = styled.div<{ backgroundColor: string }>`
+export const Type = styled.div<{
+  backgroundColor: string;
+}>`
   padding: 0.4em;
   border: 2px solid white;
   border-radius: 1em;
@@ -60,7 +62,9 @@ export const Type = styled.div<{ backgroundColor: string }>`
   margin: 0 0.2em;
 `;
 
-export const Abilities = styled.div<{ backgroundColor: string }>`
+export const Abilities = styled.div<{
+  backgroundColor: string;
+}>`
   margin: 1em auto;
   padding-left: 1em;
   width: 90%;

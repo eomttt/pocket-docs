@@ -5,9 +5,7 @@ import {
 } from 'components/Thumbnail';
 import { IMAGE_URL, TITLE_IMAGE } from 'constants/common';
 import { useRouter } from 'next/router';
-import React, {
- useCallback, useEffect, useMemo, useState 
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import * as Styles from './styles';
 
 interface ThumbnailesProps {
@@ -17,7 +15,6 @@ interface ThumbnailesProps {
 export const Thumbnailes = ({ pokemonList }: ThumbnailesProps) => {
   const router = useRouter();
   const [thumbnailes, setThumbnailes] = useState<PokemonThumbnail[]>([]);
-
   useEffect(() => {
     setThumbnailes(
       pokemonList.map(pokemon => ({
@@ -25,11 +22,11 @@ export const Thumbnailes = ({ pokemonList }: ThumbnailesProps) => {
         image: `${IMAGE_URL}${pokemon.number}.png`,
       })),
     );
-  }, []);
+  }, [pokemonList]);
 
   const handleClickFindPokemon = useCallback(() => {
     router.push('docs');
-  }, []);
+  }, [router]);
 
   const pokemonImages = useMemo(
     () => (

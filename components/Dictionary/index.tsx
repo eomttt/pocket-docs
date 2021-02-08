@@ -38,11 +38,14 @@ export const Dictionary = ({ pokemonList }: DicionaryProps) => {
     }
 
     router.push(`item/${itemId}`);
-  }, [value]);
+  }, [pokemonList, router, value]);
 
-  const handleClickCard = useCallback((id: number) => {
-    router.push(`item/${id}`);
-  }, []);
+  const handleClickCard = useCallback(
+    (id: number) => {
+      router.push(`item/${id}`);
+    },
+    [router],
+  );
 
   return (
     <Styles.Container>

@@ -17,7 +17,7 @@ You can start editing the page by modifying `pages/index.js`. The page auto-upda
 - [Next.js](https://nextjs.org/)
 - [Emotion](https://emotion.sh/docs/introduction)
 - [react-query](https://react-query.tanstack.com/)
-- [ppoke API](https://pokeapi.co/)
+- [Poke API](https://pokeapi.co/)
 - [Vercel](https://vercel.com/dashboard)
 
 ## Learn More
