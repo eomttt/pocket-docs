@@ -1,20 +1,24 @@
-import {
-  Thumbnail,
-  PokemonThumbnail,
-  PokemonListItem,
-} from 'components/Thumbnail';
+import { PokemonThumbnail, Thumbnail } from 'components/Thumbnail';
 import { IMAGE_URL, TITLE_IMAGE } from 'constants/common';
+import { useGetPokemonList } from 'hooks/useGetPokemonList';
 import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import * as Styles from './styles';
 
-interface ThumbnailesProps {
-  pokemonList: PokemonListItem[];
-}
-
-export const Thumbnailes = ({ pokemonList }: ThumbnailesProps) => {
+export const Thumbnailes = () => {
   const router = useRouter();
+  const { data, isLoading } = useGetPokemonList();
+  const pokemonList = useMemo(() => {
+    if (data) {
+      return data.results.map((item, index) => ({
+        ...item,
+        number: index + 1,
+      }));
+    }
+    return [];
+  }, [data]);
   const [thumbnailes, setThumbnailes] = useState<PokemonThumbnail[]>([]);
+
   useEffect(() => {
     setThumbnailes(
       pokemonList.map(pokemon => ({
@@ -45,6 +49,10 @@ export const Thumbnailes = ({ pokemonList }: ThumbnailesProps) => {
     ),
     [thumbnailes],
   );
+
+  if (isLoading || !data) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Styles.Container>

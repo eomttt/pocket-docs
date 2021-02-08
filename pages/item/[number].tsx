@@ -3,7 +3,7 @@ import { Card } from 'components/Card';
 import { Layout } from 'components/Layout';
 import { MAX_POKEMON_COUNT } from 'constants/common';
 import { Name } from 'constants/name';
-import { GetServerSideProps, GetStaticProps } from 'next';
+import { GetStaticProps } from 'next';
 import React, { useMemo } from 'react';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
@@ -38,12 +38,14 @@ const Item = ({ id }: ItemProps) => {
 
 export async function getStaticPaths() {
   return {
-    paths: Array(MAX_POKEMON_COUNT).fill(null).map((item, index) => ({
-      params: {
-        number: `${index + 1}`,
-      }
-    })),
-    fallback: false
+    paths: Array(MAX_POKEMON_COUNT)
+      .fill(null)
+      .map((item, index) => ({
+        params: {
+          number: `${index + 1}`,
+        },
+      })),
+    fallback: false,
   };
 }
 

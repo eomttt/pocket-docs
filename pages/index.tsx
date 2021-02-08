@@ -3,44 +3,23 @@ import { Layout } from 'components/Layout';
 import { Thumbnailes } from 'components/Thumbnailes';
 import { GetStaticProps } from 'next';
 import React from 'react';
-import { QueryClient, useQuery } from 'react-query';
+import { QueryClient } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 
-const Home = () => {
-  const { data, isLoading } = useQuery('pokemonlist', getPocketmonList);
-
-  if (isLoading || !data) {
-    return <div>Loading...</div>;
-  }
-
-  return (
-    <Layout>
-      <Thumbnailes
-        pokemonList={data.results.map((item, index) => ({
-          ...item,
-          number: index + 1,
-        }))}
-      />
-    </Layout>
-  );
-};
+const Home = () => (
+  <Layout>
+    <Thumbnailes />
+  </Layout>
+);
 
 export const getStaticProps: GetStaticProps = async () => {
-  try {
-    const queryClient = new QueryClient();
-    await queryClient.prefetchQuery('pokemonlist', getPocketmonList);
-    return {
-      props: {
-        dehydratedState: dehydrate(queryClient),
-      },
-    };
-  } catch (error) {
-    console.error('Error', error);
-  }
-
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery('pokemonlist', getPocketmonList, {
+    staleTime: 10000,
+  });
   return {
     props: {
-      pokemonList: [],
+      dehydratedState: dehydrate(queryClient),
     },
   };
 };

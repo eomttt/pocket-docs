@@ -1,7 +1,7 @@
 import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { Hydrate } from 'react-query/hydration';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { Hydrate } from 'react-query/hydration';
 import '../styles/globals.css';
 
 interface MyAppProps {
@@ -10,6 +10,11 @@ interface MyAppProps {
 }
 
 const queryClient = new QueryClient();
+queryClient.setDefaultOptions({
+  queries: {
+    staleTime: Infinity,
+  },
+});
 
 function MyApp({ Component, pageProps }: MyAppProps) {
   return (

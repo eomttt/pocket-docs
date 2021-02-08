@@ -1,17 +1,23 @@
-import { PokemonListItem } from 'components/Thumbnail';
 import { IMAGE_URL, MAX_POKEMON_COUNT } from 'constants/common';
 import { Name } from 'constants/name';
+import { useGetPokemonList } from 'hooks/useGetPokemonList';
 import { useRouter } from 'next/router';
-import React, { ChangeEvent, useCallback, useState } from 'react';
+import React, { ChangeEvent, useCallback, useMemo, useState } from 'react';
 import { getPokemonNumber, getPokemonNumberbyKo } from 'utils/common';
 import * as Styles from './styles';
 
-interface DicionaryProps {
-  pokemonList: PokemonListItem[];
-}
-
-export const Dictionary = ({ pokemonList }: DicionaryProps) => {
+export const Dictionary = () => {
   const router = useRouter();
+  const { data, isLoading } = useGetPokemonList();
+  const pokemonList = useMemo(() => {
+    if (data) {
+      return data.results.map((item, index) => ({
+        ...item,
+        number: index + 1,
+      }));
+    }
+    return [];
+  }, [data]);
   const [value, setValue] = useState<number | string>();
 
   const handleChangeId = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -46,6 +52,10 @@ export const Dictionary = ({ pokemonList }: DicionaryProps) => {
     },
     [router],
   );
+
+  if (isLoading || !data) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Styles.Container>
