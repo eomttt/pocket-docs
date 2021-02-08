@@ -12,7 +12,10 @@ const Docs = () => {
   }
 
   return (
-    <Layout>
+    <Layout
+      image="https://user-images.githubusercontent.com/22593217/107186184-20b60280-6a27-11eb-8c70-2fff6e7fda8f.png"
+      title="포켓몬 도감"
+    >
       <Dictionary
         pokemonList={data.results.map((item, index) => ({
           ...item,

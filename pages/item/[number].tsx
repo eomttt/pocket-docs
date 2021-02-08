@@ -27,6 +27,7 @@ const Item = ({ id }: ItemProps) => {
     <Layout
       title={Name[data.id]}
       image={data.sprites.frontDefault}
+      favicon={data.sprites.frontDefault}
       description={types}
     >
       <Card pokemon={data} />

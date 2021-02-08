@@ -6,6 +6,7 @@ interface LayoutProps {
   title?: string;
   description?: string;
   image?: string;
+  favicon?: string;
 }
 
 export const Layout = ({
@@ -13,11 +14,12 @@ export const Layout = ({
   title,
   description,
   image,
+  favicon,
 }: LayoutProps) => (
   <>
     <Head>
       <title>Poke Docs</title>
-      <link rel="icon" href="/favicon.ico" />
+      <link rel="icon" href={favicon || '/favicon.ico'} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image} />
