@@ -1,45 +1,62 @@
-import { getPokemon, Pokemon } from 'apis/getPokemon';
+import { getPokemon } from 'apis/getPokemon';
 import { Card } from 'components/Card';
-import React from 'react';
-import { QueryClient } from 'react-query';
+import { Layout } from 'components/Layout';
+import { Name } from 'constants/name';
+import { GetServerSideProps } from 'next';
+import React, { useMemo } from 'react';
+import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 
 interface ItemProps {
-  dehydratedState: {
-    mutation: any;
-    queries: [
-      {
-        state: {
-          data: Pokemon;
-        };
-      },
-    ];
-  };
+  id: number;
 }
 
-const Item = ({ dehydratedState }: ItemProps) => (
-  <Card pokemon={dehydratedState.queries[0].state.data} />
-);
+const Item = ({ id }: ItemProps) => {
+  const { data, isLoading } = useQuery('pokemons', () => getPokemon(id));
 
-export const getServerSideProps = async (contexts: any) => {
+  const types = useMemo(
+    () => data?.types.reduce((acc, cur) => `${cur.type.name}, ${acc}`, ''),
+    [],
+  );
+
+  if (isLoading || !data) {
+    return <div>Lodaing...</div>;
+  }
+
+  return (
+    <Layout
+      title={Name[data.id]}
+      image={data.sprites.frontDefault}
+      description={types}
+    >
+      <Card pokemon={data} />
+    </Layout>
+  );
+};
+
+export const getServerSideProps: GetServerSideProps = async contexts => {
   try {
-    const queryClient = new QueryClient();
+    if (contexts?.params?.number) {
+      const queryClient = new QueryClient();
 
-    await queryClient.prefetchQuery('posts', () =>
-      getPokemon(contexts.params.number),);
+      await queryClient.prefetchQuery('pokemons', () =>
+        getPokemon(Number(contexts?.params?.number)),
+      );
 
-    return {
-      props: {
-        dehydratedState: dehydrate(queryClient),
-      },
-    };
+      return {
+        props: {
+          dehydratedState: dehydrate(queryClient),
+          id: contexts.params.number,
+        },
+      };
+    }
   } catch (error) {
     console.error('Error', error);
   }
 
   return {
     props: {
-      pokemonList: [],
+      id: 0,
     },
   };
 };

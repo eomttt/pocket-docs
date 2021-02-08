@@ -1,4 +1,4 @@
-export const Name = {
+export const Name: Record<number, string> = {
   1: '이상해씨',
   2: '이상해풀',
   3: '이상해꽃',

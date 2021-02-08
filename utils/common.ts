@@ -1,9 +1,9 @@
-import { PokemonListItem } from "components/Thumbnail";
-import { Name } from "constants/name";
+import { PokemonListItem } from 'components/Thumbnail';
+import { Name } from 'constants/name';
 
 export const getPokemonNumber = (name: string, list: PokemonListItem[]) => {
   let pokemonNumber = 0;
-  list.some((item) => {
+  list.some(item => {
     if (item.name === name) {
       pokemonNumber = item.number;
       return true;
@@ -12,7 +12,7 @@ export const getPokemonNumber = (name: string, list: PokemonListItem[]) => {
   });
 
   return pokemonNumber;
-}
+};
 
 export const getPokemonNumberbyKo = (koName: string) => {
   let pokemonNumber = 0;
@@ -24,4 +24,4 @@ export const getPokemonNumberbyKo = (koName: string) => {
     return false;
   });
   return pokemonNumber;
-}
+};

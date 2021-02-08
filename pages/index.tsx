@@ -1,38 +1,39 @@
 import { getPocketmonList } from 'apis/getPokemonList';
-import { PokemonListItem } from 'components/Thumbnail';
+import { Layout } from 'components/Layout';
 import { Thumbnailes } from 'components/Thumbnailes';
-import Head from 'next/head';
+import { GetServerSideProps } from 'next';
 import React from 'react';
+import { QueryClient, useQuery } from 'react-query';
+import { dehydrate } from 'react-query/hydration';
 
-interface HomeProps {
-  pokemonList: PokemonListItem[];
-}
+const Home = () => {
+  const { data, isLoading } = useQuery('pokemonlist', getPocketmonList);
 
-const Home = ({ pokemonList }: HomeProps) => (
-  <>
-    <Head>
-      <title>Create Next App</title>
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
-    <Thumbnailes pokemonList={pokemonList} />
-  </>
-);
+  if (isLoading || !data) {
+    return <div>Loading...</div>;
+  }
 
-export const getServerSideProps = async () => {
+  return (
+    <Layout>
+      <Thumbnailes
+        pokemonList={data.results.map((item, index) => ({
+          ...item,
+          number: index + 1,
+        }))}
+      />
+    </Layout>
+  );
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
   try {
-    const response = await getPocketmonList();
-    if (response?.results) {
-      const pokemonList = response.results.map((item, index) => ({
-        ...item,
-        number: index + 1,
-      }));
-
-      return {
-        props: {
-          pokemonList,
-        },
-      };
-    }
+    const queryClient = new QueryClient();
+    await queryClient.prefetchQuery('pokemonlist', getPocketmonList);
+    return {
+      props: {
+        dehydratedState: dehydrate(queryClient),
+      },
+    };
   } catch (error) {
     console.error('Error', error);
   }

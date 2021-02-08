@@ -1,42 +1,26 @@
 import { getPocketmonList } from 'apis/getPokemonList';
-import { PokemonListItem } from 'components/Thumbnail';
 import { Dictionary } from 'components/Dictionary';
+import { Layout } from 'components/Layout';
 import React from 'react';
+import { useQuery } from 'react-query';
 
-interface DocsProps {
-  pokemonList: PokemonListItem[];
-}
+const Docs = () => {
+  const { data, isLoading } = useQuery('pokemonlist', getPocketmonList);
 
-const Docs = ({ pokemonList }: DocsProps) => (
-  <>
-    <Dictionary pokemonList={pokemonList} />
-  </>
-);
-
-export const getServerSideProps = async () => {
-  try {
-    const response = await getPocketmonList();
-    if (response?.results) {
-      const pokemonList = response.results.map((item, index) => ({
-        ...item,
-        number: index + 1,
-      }));
-
-      return {
-        props: {
-          pokemonList,
-        },
-      };
-    }
-  } catch (error) {
-    console.error('Error', error);
+  if (isLoading || !data) {
+    return <div>Loading...</div>;
   }
 
-  return {
-    props: {
-      pokemonList: [],
-    },
-  };
+  return (
+    <Layout>
+      <Dictionary
+        pokemonList={data.results.map((item, index) => ({
+          ...item,
+          number: index + 1,
+        }))}
+      />
+    </Layout>
+  );
 };
 
 export default Docs;

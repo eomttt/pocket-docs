@@ -28,6 +28,7 @@ export interface Ability {
 
 interface Response {
   name: string;
+  id: number;
   forms: Info[];
   sprites: Sprites;
   types: Type[];
@@ -36,9 +37,5 @@ interface Response {
 
 export type Pokemon = Response;
 
-export const getPokemon = (pokemonId: number) => {
-  if (pokemonId) {
-    return Api.get<{}, Response>(`${BASE_URL}/${pokemonId}`);
-  }
-  return null;
-};
+export const getPokemon = (pokemonId: number) =>
+  Api.get<{}, Response>(`${BASE_URL}/${pokemonId}`);

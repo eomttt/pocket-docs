@@ -1,5 +1,6 @@
 import { Pokemon } from 'apis/getPokemon';
 import { Color } from 'constants/color';
+import { Name } from 'constants/name';
 import { usePokemonAbilites } from 'hooks/usePokemonAbilities';
 import { usePokemonImage } from 'hooks/usePokemonImage';
 import { usePokemonTypes } from 'hooks/usePokemonTypes';
@@ -14,7 +15,6 @@ export const Card = ({ pokemon }: CardProps) => {
   const pokemonTypes = usePokemonTypes(pokemon.types);
   const pokemonAbilites = usePokemonAbilites(pokemon.abilities);
   const { frontImage, backImage } = usePokemonImage(pokemon.sprites);
-  const pokemonName = useMemo(() => pokemon.name, [pokemon.name]);
   const pokemonType = useMemo(() => pokemonTypes[0]?.type.name, [pokemonTypes]);
 
   return (
@@ -26,7 +26,7 @@ export const Card = ({ pokemon }: CardProps) => {
         <Styles.Image src={frontImage} alt="pokemonFront" />
         <Styles.Image src={backImage} alt="pokemonBack" />
       </Styles.ImageContainer>
-      <Styles.Title>{pokemonName}</Styles.Title>
+      <Styles.Title>{`${Name[pokemon.id]}`}</Styles.Title>
       <Styles.Types>
         {pokemonTypes.map(type => (
           <Styles.Type

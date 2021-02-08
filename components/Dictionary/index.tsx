@@ -1,5 +1,6 @@
 import { PokemonListItem } from 'components/Thumbnail';
 import { IMAGE_URL, MAX_POKEMON_COUNT } from 'constants/common';
+import { Name } from 'constants/name';
 import { useRouter } from 'next/router';
 import React, { ChangeEvent, useCallback, useState } from 'react';
 import { getPokemonNumber, getPokemonNumberbyKo } from 'utils/common';
@@ -20,11 +21,12 @@ export const Dictionary = ({ pokemonList }: DicionaryProps) => {
   const handleClickFind = useCallback(() => {
     let itemId = value;
 
+    // eslint-disable-next-line no-restricted-globals
     if (isNaN(Number(value))) {
       const koNumber = getPokemonNumberbyKo(value as string);
       const number = getPokemonNumber(value as string, pokemonList);
 
-      if (koNumber <= 0 && number <=0) {
+      if (koNumber <= 0 && number <= 0) {
         alert('정확한 이름을 입력해 주세요.');
         return;
       }
@@ -39,7 +41,7 @@ export const Dictionary = ({ pokemonList }: DicionaryProps) => {
   }, [value]);
 
   const handleClickCard = useCallback((id: number) => {
-    router.push(`item/${id}`)
+    router.push(`item/${id}`);
   }, []);
 
   return (
@@ -56,13 +58,16 @@ export const Dictionary = ({ pokemonList }: DicionaryProps) => {
       </Styles.InputContainer>
       <Styles.Items>
         {pokemonList.map(pokemon => (
-          <Styles.Item key={pokemon.number} onClick={() => handleClickCard(pokemon.number)}>
+          <Styles.Item
+            key={pokemon.number}
+            onClick={() => handleClickCard(pokemon.number)}
+          >
             <Styles.ItemContent>
               <img
                 src={`${IMAGE_URL}${pokemon.number}.png`}
                 alt="pokemonImage"
               />
-              <div>{`${pokemon.number}. ${pokemon.name}`}</div>
+              <div>{`${pokemon.number}. ${Name[pokemon.number]}`}</div>
             </Styles.ItemContent>
           </Styles.Item>
         ))}
