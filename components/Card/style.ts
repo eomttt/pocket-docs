@@ -9,27 +9,16 @@ export const CardContainer = styled.div<ContainerParams>`
   width: 100%;
   height: 100vh;
   background: linear-gradient(45deg, ${props => props.backgroundColor}, white);
-  border-radius: 0.5em;
-  display: flex;
-  border: 5px solid #fdf932;
   display: flex;
   flex-direction: column;
   transition-property: opacity;
   transition-duration: 0.5s;
   transition-timing-function: ease;
   opacity: ${props => (props.isShow ? 1 : 0)};
-  @media (min-width: 415px) {
-    width: 30vw;
-    height: 40vw;
-    margin-left: 35vw;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-  } ;
 `;
 
 export const ImageContainer = styled.div`
-  margin: 0 auto;
+  margin: 5em auto;
 `;
 
 export const Image = styled.img`
@@ -72,5 +61,6 @@ export const Abilities = styled.div<{
 
 export const Ability = styled.div`
   font-weight: bold;
+  font-size: 2em;
   margin: 0.7em 0;
 `;

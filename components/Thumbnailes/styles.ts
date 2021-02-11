@@ -1,5 +1,10 @@
 import styled from '@emotion/styled';
 
+interface ThumbnailProps {
+  delay: number;
+  left: number;
+}
+
 export const Container = styled.div`
   overflow: hidden;
   position: relative;
@@ -26,10 +31,7 @@ export const Text = styled.div`
   z-index: 20;
 `;
 
-export const Thumbnail = styled.div<{
-  delay: number;
-  left: number;
-}>`
+export const Thumbnail = styled.div<ThumbnailProps>`
   position: absolute;
   animation-name: rainDown;
   animation-duration: 5.5s;
