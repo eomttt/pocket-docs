@@ -12,10 +12,12 @@ interface MyAppProps {
 function MyApp({ Component, pageProps }: MyAppProps) {
   const queryClientRef = useRef();
   if (!queryClientRef?.current) {
+    // @ts-ignore
     queryClientRef.current = new QueryClient();
   }
 
   return (
+    // @ts-ignore
     <QueryClientProvider client={queryClientRef.current}>
       <Hydrate state={pageProps.dehydratedState}>
         <Component {...pageProps} />
