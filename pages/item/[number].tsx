@@ -1,10 +1,9 @@
 import { getPokemon } from 'apis/getPokemon';
 import { Card } from 'components/Card';
 import { Layout } from 'components/Layout';
-import { MAX_POKEMON_COUNT } from 'constants/common';
 import { Name } from 'constants/name';
 import { useGetPokemon } from 'hooks/useGetPokemonList';
-import { GetServerSideProps, GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import React, { useMemo } from 'react';
 import { QueryClient } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
