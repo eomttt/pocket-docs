@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { Hydrate } from 'react-query/hydration';
@@ -9,16 +9,14 @@ interface MyAppProps {
   pageProps: any;
 }
 
-const queryClient = new QueryClient();
-queryClient.setDefaultOptions({
-  queries: {
-    staleTime: Infinity,
-  },
-});
-
 function MyApp({ Component, pageProps }: MyAppProps) {
+  const queryClientRef = useRef();
+  if (!queryClientRef?.current) {
+    queryClientRef.current = new QueryClient();
+  }
+
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClientRef.current}>
       <Hydrate state={pageProps.dehydratedState}>
         <Component {...pageProps} />
         <ReactQueryDevtools initialIsOpen={false} />

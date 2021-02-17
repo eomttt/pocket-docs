@@ -3,9 +3,10 @@ import { Card } from 'components/Card';
 import { Layout } from 'components/Layout';
 import { MAX_POKEMON_COUNT } from 'constants/common';
 import { Name } from 'constants/name';
+import { useGetPokemon } from 'hooks/useGetPokemonList';
 import { GetStaticProps } from 'next';
 import React, { useMemo } from 'react';
-import { QueryClient, useQuery } from 'react-query';
+import { QueryClient } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 
 interface ItemProps {
@@ -13,7 +14,7 @@ interface ItemProps {
 }
 
 const Item = ({ id }: ItemProps) => {
-  const { data, isLoading } = useQuery('pokemons', () => getPokemon(id));
+  const { data, isLoading } = useGetPokemon(id);
 
   const types = useMemo(
     () => data?.types.reduce((acc, cur) => `${cur.type.name}, ${acc}`, ''),
@@ -21,7 +22,7 @@ const Item = ({ id }: ItemProps) => {
   );
 
   if (isLoading || !data) {
-    return <div>Lodaing...</div>;
+    return <div>Loading...</div>;
   }
 
   return (
@@ -52,11 +53,9 @@ export async function getStaticPaths() {
 export const getStaticProps: GetStaticProps = async contexts => {
   try {
     if (contexts?.params?.number) {
+      const id = Number(contexts.params.number);
       const queryClient = new QueryClient();
-
-      await queryClient.prefetchQuery('pokemons', () =>
-        getPokemon(Number(contexts?.params?.number)),
-      );
+      await queryClient.prefetchQuery('pokemons', () => getPokemon(id));
 
       return {
         props: {
@@ -79,11 +78,10 @@ export const getStaticProps: GetStaticProps = async contexts => {
 // export const getServerSideProps: GetServerSideProps = async contexts => {
 //   try {
 //     if (contexts?.params?.number) {
+//       const id = Number(contexts.params.number);
 //       const queryClient = new QueryClient();
 
-//       await queryClient.prefetchQuery('pokemons', () =>
-//         getPokemon(Number(contexts?.params?.number)),
-//       );
+//       await queryClient.prefetchQuery('pokemons', () => getPokemon(id));
 
 //       return {
 //         props: {

@@ -14,9 +14,7 @@ const Home = () => (
 
 export const getStaticProps: GetStaticProps = async () => {
   const queryClient = new QueryClient();
-  await queryClient.prefetchQuery('pokemonlist', getPocketmonList, {
-    staleTime: 10000,
-  });
+  await queryClient.prefetchQuery('pokemonlist', getPocketmonList);
   return {
     props: {
       dehydratedState: dehydrate(queryClient),
